@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2e5caf;
+            color: white;
+            padding-top: 20px;
+            padding-left: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar .line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #5d6169;
+        }
+        .sidebar a i {
+    margin-right: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Icon size */
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+        .settings-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background-color: #5d6169;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .settings-btn:hover {
+            background-color: #658cc2;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 290px; /* Adjusted for sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Form Styling */
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea,
+        .form-container select,
+        .form-container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            background-color: #2e5caf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #5d6169;
+        }
+
+        /* Study Materials List */
+        .study-materials-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .study-materials-list h2 {
+            margin-top: 0;
+            color: #2e5caf;
+        }
+
+        .study-materials-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .study-materials-list li {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+
+        .study-materials-list li h3 {
+            margin-top: 0;
+            color: #2e5caf;
+        }
+
+        .study-materials-list li p {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .study-materials-list li a {
+            color: #2e5caf;
+            text-decoration: none;
+        }
+
+        .study-materials-list li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="title">VidyaTrack</div>
+        <div class="line"></div>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
+        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
+        <a href="classes.html"><i class="fas fa-chalkboard-teacher"></i> Classes</a>
+        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="greeting">Hello, Teacher!</div>
+        <div class="form-container">
+            <h2>Upload Study Material</h2>
+            <input type="text" id="titleInput" placeholder="Enter title" required>
+            <textarea id="descriptionInput" placeholder="Enter description" rows="4" required></textarea>
+            <select id="classInput" required>
+                <option value="">Select Class</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
+            </select>
+            <select id="sectionInput" required>
+                <option value="">Select Section</option>
+                <option value="A">Section A</option>
+                <option value="B">Section B</option>
+                <option value="C">Section C</option>
+                <option value="D">Section D</option>
+                <option value="E">Section E</option>
+                <option value="F">Section F</option>
+                <option value="G">Section G</option>
+            </select>
+            <input type="file" id="fileInput" required>
+            <button type="button" id="uploadBtn">Upload</button>
+        </div>
+
+        <!-- Study Materials List -->
+        <div class="study-materials-list">
+            <h2>Study Materials</h2>
+            <ul id="materialsList"></ul>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Cloudinary configuration
+        const cloudName = 'dechmfrbs'; // Your Cloudinary cloud name
+        const uploadPreset = 'study_material'; // Your unsigned upload preset
+
+        // Upload File to Cloudinary
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            const titleInput = document.getElementById('titleInput');
+            const descriptionInput = document.getElementById('descriptionInput');
+            const classInput = document.getElementById('classInput');
+            const sectionInput = document.getElementById('sectionInput');
+            const fileInput = document.getElementById('fileInput');
+
+            const title = titleInput.value.trim();
+            const description = descriptionInput.value.trim();
+            const selectedClass = classInput.value;
+            const selectedSection = sectionInput.value;
+            const file = fileInput.files[0];
+
+            if (title && description && selectedClass && selectedSection && file) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', uploadPreset);
+
+                fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('File uploaded:', data.secure_url);
+                    saveFileMetadata(title, description, selectedClass, selectedSection, file.name, data.secure_url);
+                    alert('File uploaded successfully!');
+                    titleInput.value = '';
+                    descriptionInput.value = '';
+                    classInput.value = '';
+                    sectionInput.value = '';
+                    fileInput.value = '';
+                })
+                .catch(error => {
+                    console.error('Error uploading file:', error);
+                    alert('Error uploading file. Please try again.');
+                });
+            } else {
+                alert('Please fill out all fields and select a file.');
+            }
+        });
+
+        // Save File Metadata to Firestore
+        async function saveFileMetadata(title, description, selectedClass, selectedSection, fileName, downloadURL) {
+            try {
+                await addDoc(collection(db, 'study-materials'), {
+                    title: title,
+                    description: description,
+                    class: selectedClass,
+                    section: selectedSection,
+                    fileName: fileName,
+                    url: downloadURL,
+                    timestamp: serverTimestamp()
+                });
+                console.log('File metadata saved to Firestore');
+                loadStudyMaterials(); // Refresh the list
+            } catch (error) {
+                console.error('Error saving file metadata:', error);
+            }
+        }
+
+        // Load Study Materials
+        async function loadStudyMaterials() {
+            const materialsList = document.getElementById('materialsList');
+            materialsList.innerHTML = ''; // Clear previous list
+
+            try {
+                const q = query(collection(db, 'study-materials'), orderBy('timestamp', 'desc'));
+                const querySnapshot = await getDocs(q);
+
+                querySnapshot.forEach((doc) => {
+                    const material = doc.data();
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <h3>${material.title}</h3>
+                        <p>${material.description}</p>
+                        <p><strong>Class:</strong> ${material.class}, <strong>Section:</strong> ${material.section}</p>
+                        <p><a href="${material.url}" target="_blank">Download: ${material.fileName}</a></p>
+                    `;
+                    materialsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error loading study materials:', error);
+            }
+        }
+
+        // Load study materials when the page loads
+        loadStudyMaterials();
+    </script>
+     <script type="module" src="../auth-check.js"></script>
+</body>
+</html>

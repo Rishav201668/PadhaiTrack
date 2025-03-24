@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices - Teacher - VidyaTrack</title>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to add a notice
+        async function addNotice(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const title = document.getElementById("notice-title").value;
+            const description = document.getElementById("notice-description").value;
+
+            if (!title || !description) {
+                alert("Please fill in all fields");
+                return;
+            }
+
+            try {
+                // Add notice to Firestore
+                await addDoc(collection(db, "notices"), {
+                    title: title,
+                    description: description,
+                    timestamp: new Date().toISOString() // Store timestamp
+                });
+
+                // Show success message
+                document.getElementById("success-message").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("success-message").style.display = "none";
+                }, 3000);
+
+                // Reset the form
+                document.getElementById("notice-form").reset();
+            } catch (error) {
+                console.error("Error adding notice:", error);
+                
+            }
+        }
+
+        // Function to fetch and display notices
+        function fetchNotices() {
+            const noticesList = document.getElementById("notices-list");
+            noticesList.innerHTML = "<p>Loading notices...</p>";
+
+            // Query notices sorted by timestamp in descending order
+            const q = query(collection(db, "notices"), orderBy("timestamp", "desc"));
+
+            // Listen for real-time updates
+            onSnapshot(q, (snapshot) => {
+                console.log("Snapshot received:", snapshot); // Debugging
+                if (snapshot.empty) {
+                    console.log("No notices found."); // Debugging
+                    noticesList.innerHTML = "<p>No notices found.</p>";
+                    return;
+                }
+
+                noticesList.innerHTML = ""; // Clear previous content
+                snapshot.forEach((doc) => {
+                    const notice = doc.data();
+                    console.log("Notice data:", notice); // Debugging
+                    const noticeItem = document.createElement("div");
+                    noticeItem.className = "notice-item";
+                    noticeItem.innerHTML = `
+                        <h3>${notice.title}</h3>
+                        <p>${notice.description}</p>
+                        <small>Posted on: ${new Date(notice.timestamp).toLocaleString()}</small>
+                    `;
+                    noticesList.appendChild(noticeItem);
+                });
+            }, (error) => {
+                console.error("Error fetching notices:", error); // Debugging
+                noticesList.innerHTML = "<p>Error loading notices. Please try again.</p>";
+            });
+        }
+
+        // Attach event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const noticeForm = document.getElementById("notice-form");
+            noticeForm.addEventListener("submit", addNotice); // For teachers only
+            fetchNotices(); // Fetch notices
+        });
+    </script>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+
+        h1 {
+            color: #2e5caf;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2e5caf;
+            color: white;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        .sidebar .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar .line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #5d6169;
+        }
+        .sidebar a i {
+    margin-right: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Icon size */
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 290px; /* Adjust for sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Notice Form (For Teachers) */
+        .notice-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .notice-form input,
+        .notice-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .notice-form button {
+            background-color: #2e5caf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .notice-form button:hover {
+            background-color: #5d6169;
+        }
+
+        /* Notices List */
+        .notice-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .notice-item h3 {
+            margin-top: 0;
+            color: #2e5caf;
+        }
+
+        .notice-item small {
+            color: #777;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="title">VidyaTrack</div>
+        <div class="line"></div>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
+        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
+        <a href="classes.html"><i class="fas fa-chalkboard-teacher"></i> Classes</a>
+        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Notices</h1>
+
+        <!-- Notice Form (For Teachers) -->
+        <div class="notice-form" id="notice-form">
+            <h2>Add New Notice</h2>
+            <form>
+                <input type="text" id="notice-title" placeholder="Notice Title" required>
+                <textarea id="notice-description" placeholder="Notice Description" rows="4" required></textarea>
+                <button type="submit">Add Notice</button>
+            </form>
+            <!-- Success Message -->
+            <div id="success-message" class="success-message">
+                Notice added successfully!
+            </div>
+        </div>
+
+        <!-- Notices List -->
+        <div id="notices-list">
+            <!-- Notices will be dynamically added here -->
+        </div>
+    </div>
+    <script type="module" src="../auth-check.js"></script>
+</body>
+</html>

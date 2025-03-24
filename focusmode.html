@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PadhaiTrack | Focus Mode</title>
+    
+    <meta name="description" content="A Pomodoro-based study timer to help you stay focused and productive.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/focusmode.css">
+    <link rel="stylesheet" href="css/focusmobile.css" media="screen and (max-width: 1080px)">
+    
+    <!-- Scripts -->
+    <script defer src="js/focusmode.js"></script>
+    <script src="js/settings.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">PadhaiTrack</h2>
+            <div class="sidebar-hamburger-btn" id="sidebar-hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        <div class="sidebar-line"></div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i><span class="link-text">Dashboard</span></a></li>
+            <li><a href="todo.html" ><i class="fas fa-list-check"></i><span class="link-text">To-Do List</span></a></li>
+            <li><a href="homework.html"><i class="fas fa-book"></i><span class="link-text">Homework</span></a></li>
+            <li><a href="exam.html"><i class="fas fa-calendar-alt"></i><span class="link-text">Exam Prep</span></a></li>
+            <li><a href="focusmode.html"  class="active"><i class="fas fa-bullseye"></i><span class="link-text">Focus Mode</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Timer Content -->
+    <div class="main-container">
+        <div class="settings-container">
+            <button id="settings-btn">⚙️</button>
+        </div>
+        <div class="timer-container">
+            <h1>Focus Mode</h1>
+            <div class="timer-ring">
+                <canvas id="timer-ring" width="200" height="200"></canvas>
+                <div id="timer-display" class="timer-display">25:00</div>
+            </div>
+            <div id="mode-indicator">Focus</div>
+
+            <div class="buttons">
+                <button id="start-resume-btn">Start</button>
+                <button id="pause-btn" >Pause</button>
+                <button id="reset-btn" >Reset</button>
+                <button id="break-btn" >Start / End a Break</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+<div id="settings-modal" class="settings-modal">
+    <div class="settings-content">
+        <span class="close-btn">&times;</span>
+        <h2>Settings</h2>
+
+        <!-- Focus Time Input -->
+        <label for="focus-time">Focus Time (in minutes):</label>
+        <input type="number" id="focus-time" value="25" min="1" max="60">
+
+        <!-- Break Time Input -->
+        <label for="break-time">Break Time (in minutes):</label>
+        <input type="number" id="break-time" value="5" min="1" max="30">
+
+        <button id="save-settings">Save</button>
+    </div>
+</div>
+
+    <!-- Bottom Section -->
+    <div id="bottom">
+        <div id="bottom-left"></div>
+        <div id="bottom-mid"></div>
+        <div id="bottom-right">
+            <iframe id="spotify" width="300" height="80" frameborder="0" allowfullscreen=""
+                src="https://open.spotify.com/embed/playlist/2F6LyTRo99Hy7ayFFLso9t" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+            </iframe>
+        </div>
+    </div>
+   
+</body>
+</html>
