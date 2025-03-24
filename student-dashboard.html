@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2e5caf;
+            color: white;
+            padding-top: 20px;
+            padding-left: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar .line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #5d6169;
+        }
+        .sidebar a i {
+    margin-right: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Icon size */
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+}
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 290px; /* Adjusted for sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2e5caf;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+    grid-template-rows: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; /* Adds spacing between the cards */
+            flex-direction: column;
+        }
+
+        /* Card Styling */
+        
+
+        .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    gap: 20px; /* Adds spacing between the cards */
+    align-items: start; /* Ensures cards align to the top, not stretch */
+}
+
+.card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: auto; /* Allow the cards to grow based on content */
+}
+
+
+
+
+
+        .card h2 {
+            margin-top: 0;
+            color: #2e5caf;
+        }
+
+        .card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+
+        .card a {
+            color: #2e5caf;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Attendance Ring */
+        .attendance-ring {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .attendance-ring canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .attendance-ring .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e5caf;
+        }
+    </style>
+    <!-- Chart.js for Attendance Ring -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="title">VidyaTrack</div>
+        <div class="line"></div>
+        <a href="student-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
+        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
+        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 id="greeting">Hi, Student!</h1>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="container"> 
+           <!-- Homework Card -->
+            <div class="card">
+                <h2>Homework</h2>
+                <ul id="homeworkList"></ul>
+            </div>
+
+            <!-- Notices Card -->
+            <div class="card">
+                <h2>Notices</h2>
+                <ul id="noticesList"></ul>
+            </div>
+ 
+
+            <!-- Group Work Card -->
+            <div class="card">
+                <h2>Group Work</h2>
+                <ul id="groupWorkList"></ul>
+            </div>
+            <!-- Attendance Card -->
+            <div class="card">
+                <h2>Attendance</h2>
+                <div class="attendance-ring">
+                    <canvas id="attendanceChart"></canvas>
+                    <div class="percentage" id="attendancePercentage">0%</div>
+                </div>
+            </div>
+
+            <!-- Study Materials Card -->
+            <div class="card">
+                <h2>Study Materials</h2>
+                <ul id="studyMaterialsList"></ul>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, query, where, orderBy, getDocs, doc, getDoc, limit } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Fetch Student Details
+        async function fetchStudentDetails(studentId) {
+            const studentRef = doc(db, 'users', studentId);
+            const studentDoc = await getDoc(studentRef);
+
+            if (studentDoc.exists()) {
+                return studentDoc.data();
+            } else {
+                console.error('Student not found');
+                return null;
+            }
+        }
+
+        // Load Homework with Due Date in 3 Days or Less
+        async function loadHomework() {
+    const homeworkRef = collection(db, 'homework'); // Reference to 'homework' collection
+    const today = new Date();
+    const threeDaysLater = new Date();
+    threeDaysLater.setDate(today.getDate() + 3); // Set the date to 3 days later
+
+    // Fetch all homework
+    const querySnapshot = await getDocs(homeworkRef);
+    
+    let homeworkList = [];
+    
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        
+        // Convert Firestore's string date format into a Date object
+        const dueDate = new Date(data.dueDate);
+        
+        // Only show homework that is due within the next 3 days
+        if (dueDate >= today && dueDate <= threeDaysLater) {
+            homeworkList.push({
+                title: data.title,
+                subject: data.subject,
+                dueDate: data.dueDate
+            });
+        }
+    });
+
+    // Sort homework by due date
+    homeworkList.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+    // Get the container element
+    const homeworkContainer = document.getElementById('homeworkList');
+    homeworkContainer.innerHTML = ''; // Clear previous entries
+
+    // Check if there's any homework
+    if (homeworkList.length === 0) {
+        homeworkContainer.innerHTML = `<p>No homework due in the next 3 days!</p>`;
+        return;
+    }
+
+    // Display each homework
+    homeworkList.forEach(hw => {
+        const hwItem = document.createElement('div');
+        hwItem.classList.add('homework-item'); // Add styling class
+        hwItem.innerHTML = `
+            <h3>${hw.title}</h3>
+            <p>Subject: ${hw.subject}</p>
+            <p>Due Date: ${hw.dueDate}</p>
+        `;
+        homeworkContainer.appendChild(hwItem);
+    });
+}
+
+        // Load Attendance for Last Month
+        async function loadAttendance(studentId) {
+    const attendanceRef = collection(db, 'attendance');
+    const today = new Date();
+
+    // Get first and last date of previous month
+    const startOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+
+    let presentDays = 0;
+    let totalDays = endOfLastMonth.getDate(); // Total days in previous month
+
+    // Fetch all attendance documents
+    const querySnapshot = await getDocs(attendanceRef);
+
+    querySnapshot.forEach((doc) => {
+        const docDate = new Date(doc.id); // Convert document name to Date
+
+        // Check if document is from last month
+        if (docDate >= startOfLastMonth && docDate <= endOfLastMonth) {
+            const data = doc.data();
+
+            if (Array.isArray(data.attendance)) {
+                // Find the student's record in the attendance array
+                const studentRecord = data.attendance.find(record => record.studentId === studentId);
+                if (studentRecord && studentRecord.isPresent) {
+                    presentDays++; // Count present days
+                }
+            }
+        }
+    });
+
+    // Calculate attendance percentage
+    const attendancePercentage = Math.round((presentDays / totalDays) * 100);
+    const absentPercentage = 100 - attendancePercentage; // Calculate absent percentage
+
+    // Update Attendance Ring UI
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [absentPercentage, attendancePercentage], // Present First
+                backgroundColor: ['#2e5caf', '#e9ecef'], // Blue for Present, Gray for Absent
+            }]
+        },
+        options: {
+            cutout: '80%',
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+
+    // Update Percentage Text
+    document.getElementById('attendancePercentage').textContent = `${100-attendancePercentage}%`;
+}
+
+
+
+        // Load Notices
+        async function loadNotices() {
+            const noticesList = document.getElementById('noticesList');
+            noticesList.innerHTML = ''; // Clear previous list
+
+            const q = query(
+                collection(db, 'notices'),
+                orderBy('timestamp', 'desc'),
+                limit(5)
+            );
+
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                noticesList.innerHTML = '<li>No notices found.</li>';
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const notice = doc.data();
+                const li = document.createElement('li');
+                li.textContent = notice.title;
+                noticesList.appendChild(li);
+            });
+        }
+
+        async function loadGroupWork(userId) {
+    const groupWorkList = document.getElementById('groupWorkList');
+    groupWorkList.innerHTML = ''; // Clear previous list
+
+    // Fetch user data (class and section) from the 'users' collection
+    const userDoc = await getDoc(doc(db, 'users', userId));
+
+    if (!userDoc.exists()) {
+        groupWorkList.innerHTML = '<li>User not found.</li>';
+        console.error('User not found.');
+        return;
+    }
+
+    const userData = userDoc.data();
+    const className = userData.class; // Assuming 'class' field in users collection
+    const section = userData.section; // Assuming 'section' field in users collection
+
+    // Check if className and section are defined
+    if (!className || !section) {
+        groupWorkList.innerHTML = '<li>Error: Class or Section is not defined.</li>';
+        console.error('Error: Class or Section is not defined.');
+        return;
+    }
+
+    try {
+        // Query the groupWork collection based on class and section
+        const q = query(
+            collection(db, 'groupWork'),
+            where('class', '==', className),
+            where('section', '==', section),
+            orderBy('timestamp', 'desc'),
+            limit(5) // Limit the number of results if necessary
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            groupWorkList.innerHTML = '<li>No group work found for this class and section.</li>';
+            console.log('No group work found for this class and section.');
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+            const groupWork = doc.data();
+            console.log('Group Work Data:', groupWork); // Log the group work data
+            const li = document.createElement('li');
+            // Build the HTML content to display the group work information
+            let groupMembers = '';
+            groupWork.groups.forEach(group => {
+                groupMembers += `${group.groupMembers} (Group Name: ${group.groupName})<br>`;
+            });
+
+            li.innerHTML = `
+                <strong>Group Work Name:</strong> ${groupWork.groupWorkName}<br>
+                <strong>Groups:</strong><br>
+                ${groupMembers || 'No group members available.'}
+            `;
+            groupWorkList.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Error loading group work:', error);
+        groupWorkList.innerHTML = `<li>Error: ${error.message}</li>`;
+    }
+}
+
+
+        // Load Study Materials
+        async function loadStudyMaterials(studentClass, studentSection) {
+            const studyMaterialsList = document.getElementById('studyMaterialsList');
+            studyMaterialsList.innerHTML = ''; // Clear previous list
+
+            const q = query(
+                collection(db, 'study-materials'),
+                where('class', '==', studentClass),
+                where('section', '==', studentSection),
+                orderBy('timestamp', 'desc'),
+                limit(5)
+            );
+
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                studyMaterialsList.innerHTML = '<li>No study materials found.</li>';
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const material = doc.data();
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${material.title}</strong><br>
+                    <a href="${material.url}" target="_blank">Download</a>
+                `;
+                studyMaterialsList.appendChild(li);
+            });
+        }
+
+        // Check if the student is logged in
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const studentDetails = await fetchStudentDetails(user.uid);
+                if (studentDetails) {
+                    // Update Greeting
+                    document.getElementById('greeting').textContent = `Hi, ${studentDetails.name}!`;
+
+                    // Load Data
+                    loadHomework(studentDetails.class, studentDetails.section);
+                    loadAttendance(user.uid);
+                    loadNotices();
+                    loadGroupWork(user.uid);
+                    loadStudyMaterials(studentDetails.class, studentDetails.section);
+                }
+            } else {
+                console.log('Student is not logged in');
+                // Redirect to login page or show a message
+            }
+        });
+    </script>
+ <script type="module" src="../auth-check.js"></script>
+</body>
+</html>

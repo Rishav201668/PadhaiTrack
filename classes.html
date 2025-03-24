@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidyaTrack - Classes</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Light gray background */
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2e5caf; /* Dark blue sidebar */
+            color: white;
+            padding-top: 20px;
+            padding-left: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: white; /* White title */
+        }
+
+        .sidebar .line {
+            width: 100%;
+            height: 2px;
+            background-color: white; /* White line */
+            margin-top: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #5d6169; /* Light gray on hover */
+        }
+        .sidebar a i {
+    margin-right: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Icon size */
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+        .settings-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background-color: #5d6169; /* Light gray button */
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background-color: #658cc2; /* Lighter blue on hover */
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 290px; /* Adjusted for sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* User Greeting */
+        .greeting {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2e5caf; /* Dark blue text */
+        }
+
+        /* Form Styling */
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2e5caf; /* Dark blue text */
+        }
+
+        .form-container .form-row {
+            display: flex;
+            gap: 10px; /* Space between elements */
+            align-items: flex-end; /* Align elements at the bottom */
+        }
+
+        .form-container .form-row select,
+        .form-container .form-row button {
+            flex: 1; /* Equal width for all elements */
+            padding: 10px;
+            border: 1px solid #ddd; /* Light gray border */
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-container .form-row button {
+            background-color: #2e5caf; /* Dark blue button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container .form-row button:hover {
+            background-color: #5d6169; /* Light gray on hover */
+        }
+
+        /* Student List Styling */
+        .student-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-list h2 {
+            margin-top: 0;
+            color: #2e5caf; /* Dark blue heading */
+        }
+
+        .student-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .student-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #e9ecef; /* Light gray background for list items */
+            border-radius: 4px;
+            color: #333; /* Dark text */
+        }
+
+        .student-list li strong {
+            color: #2e5caf; /* Dark blue for student names */
+        }
+
+        /* No Students Message */
+        .no-students {
+            text-align: center;
+            color: #7f8c8d; /* Gray text */
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Group Section Styling */
+        .group-section {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .group-section h3 {
+            margin-top: 0;
+            color: #2e5caf; /* Dark blue heading */
+        }
+
+        .group-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd; /* Light gray border */
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Buttons */
+        .fetchStudents-btn,
+        .addGroup-btn,
+        .publish-btn {
+            background-color: #2e5caf; /* Dark blue button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .fetchStudents-btn:hover,
+        .addGroup-btn:hover,
+        .publish-btn:hover {
+            background-color: #5d6169; /* Light gray on hover */
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="title">VidyaTrack</div>
+        <div class="line"></div>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
+        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
+        <a href="classes.html"><i class="fas fa-chalkboard-teacher"></i> Classes</a>
+        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="greeting">Hello, Teacher!</div>
+        <div class="form-container">
+            <div class="form-row">
+                <div>
+                    <label for="class">Class:</label>
+                    <select id="class" name="class" required>
+                        <option value="">Select Class</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="section">Section:</label>
+                    <select id="section" name="section" required>
+                        <option value="">Select Section</option>
+                        <option value="A">Section A</option>
+                        <option value="B">Section B</option>
+                        <option value="C">Section C</option>
+                        <option value="D">Section D</option>
+                        <option value="E">Section E</option>
+                        <option value="F">Section F</option>
+                        <option value="G">Section G</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="fetchStudentsBtn" class="fetchStudents-btn">Fetch Students</button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Student List -->
+        <div class="student-list" id="studentList">
+            <h2>Students</h2>
+            <ul id="students"></ul>
+        </div>
+    </div>
+
+        
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Fetch Students
+        document.getElementById('fetchStudentsBtn').addEventListener('click', async () => {
+            const selectedClass = document.getElementById('class').value;
+            const selectedSection = document.getElementById('section').value;
+
+            if (!selectedClass || !selectedSection) {
+                alert('Please select class and section.');
+                return;
+            }
+
+            try {
+                // Fetch students from Firestore
+                const studentsRef = collection(db, 'users');
+                const q = query(studentsRef, 
+                    where('class', '==', selectedClass), 
+                    where('section', '==', selectedSection), 
+                    where('role', '==', 'student')
+                );
+                const querySnapshot = await getDocs(q);
+
+                const studentsList = document.getElementById('students');
+                studentsList.innerHTML = ''; // Clear previous list
+
+                if (querySnapshot.empty) {
+                    studentsList.innerHTML = '<p class="no-students">No students found for the selected class and section.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const student = doc.data();
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${student.name}</strong> (${student.email})`;
+                    studentsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                alert('An error occurred while fetching students. Check the console for details.');
+            }
+        });
+    </script>
+     <script type="module" src="../auth-check.js"></script>
+</body>
+</html>

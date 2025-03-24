@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidyaTrack Signup</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #f4f4f9, #e0e0f5);
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 30%;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 40px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .sidebar h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar ul li:hover {
+            transform: translateX(10px);
+            color: #ffdd57;
+        }
+
+        .sidebar ul li::before {
+            content: "✔";
+            margin-right: 15px;
+            color: #00ff00;
+            font-size: 20px;
+        }
+
+        /* Signup Form Container */
+        .signup-container {
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        /* Form Styles */
+        #signup-form {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #signup-form h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+        /* Role Selection */
+        #role {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Class & Section Container */
+        #class-section-container {
+            display: none; /* Hidden by default */
+            margin-top: 15px;
+        }
+
+        /* Button Styles */
+        #signup-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        #signup-button:hover {
+            background: linear-gradient(135deg, #0056b3, #003d80);
+            transform: translateY(-2px);
+        }
+
+        /* Link Styles */
+        p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        p a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        p a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Error Message */
+        #error-message {
+            color: #ff4444;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                overflow: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .sidebar ul li {
+                justify-content: center;
+            }
+
+            .signup-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            #signup-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1>Welcome to VidyaTrack</h1>
+        <ul>
+            <li>Track student progress in real-time</li>
+            <li>Manage classes and sections easily</li>
+            <li>Assign and grade assignments online</li>
+            <li>Communicate with students and parents</li>
+            <li>Generate detailed reports</li>
+            <li>Access from anywhere, anytime</li>
+        </ul>
+    </div>
+
+    <!-- Signup Form Container -->
+    <div class="signup-container">
+        <form id="signup-form">
+            <h2>Sign up for VidyaTrack</h2>
+            <input type="text" id="signup-name" placeholder="Enter your full name" required autocomplete="name">
+            <input type="email" id="signup-email" placeholder="Enter your email" required>
+            <input type="password" id="signup-password" placeholder="Enter your password" required>
+            
+            <!-- Role selection -->
+            <select id="role" required>
+                <option value="">Select Role</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+            </select>
+
+            <!-- Class & Section fields (only shown if student is selected) -->
+            <div id="class-section-container">
+                <!-- Class Dropdown (1-10) -->
+                <select id="class" required>
+                    <option value="">Select Class</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
+                </select>
+
+                <!-- Section Dropdown (A-G) -->
+                <select id="section" required>
+                    <option value="">Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                    <option value="D">Section D</option>
+                    <option value="E">Section E</option>
+                    <option value="F">Section F</option>
+                    <option value="G">Section G</option>
+                </select>
+            </div>
+
+            <button type="button" id="signup-button">Sign Up</button>
+            <p><a href="index.html">Already have an account? Login here.</a></p>
+        </form>
+
+        <p id="error-message"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Show/Hide Class & Section fields based on role
+        document.getElementById("role").addEventListener("change", function() {
+            const role = this.value;
+            const classSectionContainer = document.getElementById("class-section-container");
+
+            if (role === "student") {
+                classSectionContainer.style.display = "block";  // Show fields for student
+            } else {
+                classSectionContainer.style.display = "none";   // Hide fields for teacher
+            }
+        });
+
+        // Signup Function
+        function signup() {
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            const role = document.getElementById("role").value;
+            const classField = document.getElementById("class").value;
+            const sectionField = document.getElementById("section").value;
+
+            if (!role) {
+                document.getElementById("error-message").innerText = "Please select a role.";
+                return;
+            }
+
+            if (role === "student" && (!classField || !sectionField)) {
+                document.getElementById("error-message").innerText = "Please select both class and section.";
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    const user = userCredential.user;
+
+                    // Store the user data in Firestore
+                    const userData = {
+                        email: email,
+                        name: name,
+                        role: role,
+                    };
+
+                    if (role === "student") {
+                        userData.class = classField;
+                        userData.section = sectionField;
+                    }
+
+                    // For teachers, you can store additional data
+                    if (role === "teacher") {
+                        // Store teacher-specific data (you can add more teacher-specific fields here)
+                        userData.subjects = [];  // Example of a teacher's subjects (empty array for now)
+                    }
+
+                    // Save user data to Firestore
+                    await setDoc(doc(db, "users", user.uid), userData);
+
+                    alert("Signup successful! Please log in.");
+                    window.location.href = "index.html"; // Redirect to login page
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    document.getElementById("error-message").innerText = errorMessage;
+                });
+        }
+
+        // Attach the signup function to the button's click event
+        document.getElementById("signup-button").addEventListener("click", signup);
+    </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - Teacher - VidyaTrack</title>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
+            authDomain: "vidyatrack2.firebaseapp.com",
+            projectId: "vidyatrack2",
+            storageBucket: "vidyatrack2.appspot.com",
+            messagingSenderId: "88994221129",
+            appId: "1:88994221129:web:606388968b7de0218c4398",
+            measurementId: "G-RTX0GY7D69"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to fetch students based on class and section
+        async function fetchStudents() {
+            const classSelect = document.getElementById("class-select");
+            const sectionSelect = document.getElementById("section-select");
+            const studentsList = document.getElementById("students-list");
+
+            const selectedClass = classSelect.value;
+            const selectedSection = sectionSelect.value;
+
+            if (!selectedClass || !selectedSection) {
+                alert("Please select both class and section.");
+                return;
+            }
+
+            studentsList.innerHTML = "<p>Loading students...</p>";
+
+            try {
+                // Fetch students from Firestore
+                const usersRef = collection(db, "users");
+                const querySnapshot = await getDocs(usersRef);
+
+                studentsList.innerHTML = ""; // Clear previous content
+
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    if (user.role === "student" && user.class === selectedClass && user.section === selectedSection) {
+                        const studentItem = document.createElement("div");
+                        studentItem.className = "student-item";
+                        studentItem.innerHTML = `
+                            <label>
+                                <input type="checkbox" id="attendance-${doc.id}" data-student-id="${doc.id}">
+                                ${user.name} 
+                            </label>
+                        `;
+                        studentsList.appendChild(studentItem);
+                    }
+                });
+
+                if (studentsList.innerHTML === "") {
+                    studentsList.innerHTML = "<p>No students found for the selected class and section.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching students:", error);
+                studentsList.innerHTML = "<p>Error loading students. Please try again.</p>";
+            }
+        }
+
+        // Function to submit attendance
+        async function submitAttendance(event) {
+            event.preventDefault();
+
+            const dateInput = document.getElementById("date-input");
+            const studentsList = document.getElementById("students-list");
+
+            const selectedDate = dateInput.value;
+
+            if (!selectedDate) {
+                alert("Please select a date.");
+                return;
+            }
+
+            const attendanceData = [];
+
+            // Collect attendance data
+            studentsList.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+                const studentId = checkbox.getAttribute("data-student-id");
+                const isPresent = checkbox.checked;
+
+                attendanceData.push({
+                    studentId: studentId,
+                    isPresent: isPresent,
+                });
+            });
+
+            if (attendanceData.length === 0) {
+                alert("No students selected.");
+                return;
+            }
+
+            try {
+                // Save attendance to Firestore
+                const attendanceRef = collection(db, "attendance");
+                await setDoc(doc(attendanceRef, selectedDate), {
+                    date: selectedDate,
+                    attendance: attendanceData,
+                });
+
+                alert("Attendance submitted successfully!");
+            } catch (error) {
+                console.error("Error submitting attendance:", error);
+                alert("Error submitting attendance. Please try again.");
+            }
+        }
+
+        // Attach event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const fetchButton = document.getElementById("fetch-students-button");
+            fetchButton.addEventListener("click", fetchStudents);
+
+            const attendanceForm = document.getElementById("attendance-form");
+            attendanceForm.addEventListener("submit", submitAttendance);
+        });
+    </script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2e5caf;
+            color: white;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        .sidebar .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar .line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #5d6169;
+        }
+        .sidebar a i {
+    margin-right: 10px; /* Increased gap between icon and text */
+    font-size: 18px; /* Icon size */
+    width: 20px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+        .settings-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background-color: #5d6169;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .settings-btn:hover {
+            background-color: #658cc2;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 290px; /* Adjusted for sidebar width */
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #2e5caf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #5d6169;
+        }
+
+        /* Flexbox for Class, Section, Date, and Fetch Button */
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .filters-row .form-group {
+            margin-bottom: 0;
+        }
+
+        /* Students List Styling */
+        .student-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .student-item label {
+            display: flex;
+            align-items: center;
+        }
+
+        .student-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="title">VidyaTrack</div>
+        <div class="line"></div>
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
+        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
+        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
+        <a href="classes.html"><i class="fas fa-chalkboard-teacher"></i> Classes</a>
+        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Attendance</h1>
+
+        <!-- Filters Row -->
+        <div class="filters-row">
+            <!-- Class Selection -->
+            <div class="form-group">
+                <label for="class-select">Class:</label>
+                <select id="class-select">
+                    <option value="">Select Class</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
+                </select>
+            </div>
+
+            <!-- Section Selection -->
+            <div class="form-group">
+                <label for="section-select">Section:</label>
+                <select id="section-select">
+                    <option value="">Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                    <option value="D">Section D</option>
+                    <option value="E">Section E</option>
+                    <option value="F">Section F</option>
+                    <option value="G">Section G</option>
+                </select>
+            </div>
+
+            <!-- Date Selection -->
+            <div class="form-group">
+                <label for="date-input">Date:</label>
+                <input type="date" id="date-input" required>
+            </div>
+
+            <!-- Fetch Students Button -->
+            <div class="form-group">
+                <button type="button" id="fetch-students-button">Fetch Students</button>
+            </div>
+        </div>
+
+        <!-- Students List -->
+        <div id="students-list">
+            <!-- Students will be dynamically added here -->
+        </div>
+
+        <!-- Attendance Form -->
+        <form id="attendance-form">
+            <div class="form-group">
+                <button type="submit">Submit Attendance</button>
+            </div>
+        </form>
+    </div>
+    <script type="module" src="../auth-check.js"></script>
+</body>
+</html>
