@@ -1,0 +1,232 @@
+/* Import Global Styles */
+@import url('global.css');
+
+/* Root Variables */
+:root {
+    --primary-color: #1e90ff;
+    --secondary-color: #1e90ff;
+    --bg-light: url('../images/light.jpg');
+    --bg-dark: url('../images/dark.png');
+    --text-light: #333;
+    --text-dark: #fff;
+    --card-light: rgba(255, 255, 255, 0.2); /* Transparent glass effect */
+    --card-dark: rgba(30, 30, 30, 0.6);
+    --shadow-light: rgba(0, 0, 0, 0.2);
+    --shadow-dark: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark Mode */
+.dark-mode {
+    --text-light: #fff;
+    --card-light: rgba(30, 30, 30, 0.7);
+    --shadow-light: rgba(255, 255, 255, 0.3);
+}
+
+/* Smooth transitions */
+* {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Body Styling */
+body {
+    background: var(--bg-light) no-repeat center center/cover;
+    color: var(--text-light);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hero Section (Welcome Box) */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Transparent Box for Welcome Message */
+.hero-box {
+    background: var(--card-light);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 50%;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    text-align: center;
+    margin-top: 0vh;
+}
+
+.hero-box h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px var(--shadow-light);
+    margin-bottom: 15px;
+}
+
+.hero-box p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* Get Started Button */
+.hero-box .cta-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.hero-box .cta-btn:hover {
+    background: #0066cc;
+    transform: translateY(-3px);
+}
+
+
+/* Features Section */
+.features-section {
+    padding: 60px 20px;
+}
+.features-box{
+    background: var(--card-light);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    text-align: center;
+    margin-top: 0vh;
+    margin-left: 10vh;
+}
+.features-section h2 {
+    font-size: 2.5rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+/* Features Container */
+/* Features Container */
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Ensures only 2 cards per row */
+    gap: 15px; /* Reduced gap */
+    justify-items: center;
+    margin-top: 20px;
+}
+
+
+/* Feature Cards with Glassmorphism */
+.feature-card {
+    background: var(--card-light);
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-light);
+}
+
+.feature-card i {
+    font-size: 50px;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    
+}
+
+
+/* Dark Mode Support */
+.dark-mode {
+    background: var(--bg-dark) no-repeat center center/cover;
+    color: var(--text-dark);
+}
+
+.dark-mode .feature-card,
+.dark-mode .hero-box {
+    background: var(--card-dark);
+    box-shadow: 0 5px 15px var(--shadow-dark);
+}
+
+/* Footer */
+footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero-box {
+        width: 90%;
+    }
+
+    .features-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 🌗 Light-Dark Mode Toggle Button */
+.toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.toggle-btn {
+    width: 50px;
+    height: 25px;
+    background: linear-gradient(145deg, #dcdcdc, #ffffff);
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 3px 3px 5px #ccc, inset -3px -3px 5px #fff;
+}
+
+.toggle-btn:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    transition: 0.3s ease;
+}
+
+.dark-mode .toggle-btn {
+    background: linear-gradient(145deg, #333, #555);
+    box-shadow: inset 3px 3px 5px #222, inset -3px -3px 5px #444;
+}
+
+.dark-mode .toggle-btn:before {
+    left: 25px;
+    background: #fff;
+}

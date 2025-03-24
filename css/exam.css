@@ -1,0 +1,97 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1, p {
+    text-align: center;
+    color: #333;
+}
+
+
+/* Main Content */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+}
+
+.main-content h1 {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.main-content p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Exam Container */
+.exam-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+#subject-input, #exam-date-input {
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
+#add-exam-btn {
+    background-color: #27ae60;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-exam-btn:hover {
+    background-color: #219150;
+}
+
+/* Exam List */
+#exam-list {
+    list-style: none;
+    padding: 0;
+}
+
+#exam-list li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 5px solid #3498db;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#exam-list li span {
+    font-size: 1.1em;
+}
+
+#exam-list li .delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+#exam-list li .delete-btn:hover {
+    color: #c0392b;
+}

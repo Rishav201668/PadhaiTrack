@@ -1,262 +1,58 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Homework - VidyaTrack</title>
-    <script type="module">
-        // Import Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
-            authDomain: "vidyatrack2.firebaseapp.com",
-            projectId: "vidyatrack2",
-            storageBucket: "vidyatrack2.appspot.com",
-            messagingSenderId: "88994221129",
-            appId: "1:88994221129:web:606388968b7de0218c4398",
-            measurementId: "G-RTX0GY7D69"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Function to add homework to Firestore
-        async function addHomework(event) {
-            event.preventDefault(); // Prevent default form submission
-            console.log("Submit button clicked");  // Debugging log
-
-            const subject = document.getElementById("subject").value;
-            const title = document.getElementById("title").value;
-            const dueDate = document.getElementById("due-date").value;
-            const classSelected = document.getElementById("class").value;
-            const sectionSelected = document.getElementById("section").value;
-
-            console.log("Adding Homework..."); // Debugging log
-
-            if (!subject || !title || !dueDate || !classSelected || !sectionSelected) {
-                alert("Please fill in all fields");
-                return;
-            }
-
-            try {
-                console.log("Data to be added:", { subject, title, dueDate, classSelected, sectionSelected });
-
-                // Add homework document to Firestore
-                const docRef = await addDoc(collection(db, "homework"), {
-                    subject: subject,
-                    title: title,
-                    dueDate: dueDate, // Store as string
-                    class: classSelected, // Store class selection
-                    section: sectionSelected, // Store section selection
-                    timestamp: new Date().toISOString() // Store timestamp as ISO string
-                });
-
-                console.log("Document added with ID:", docRef.id); // Log the document ID
-                document.getElementById("success-message").style.display = "block"; // Show success message
-                setTimeout(() => {
-                    document.getElementById("success-message").style.display = "none"; // Hide success message after 3 seconds
-                }, 3000);
-
-                alert("Homework added successfully!");
-                document.getElementById("homework-form").reset(); // Reset form after submission
-            } catch (error) {
-                console.error("Error adding homework:", error);
-                alert("Error adding homework. Please try again.");
-            }
-        }
-
-        // Attach event listener to the form
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('homework-form');
-            form.addEventListener('submit', addHomework);
-        });
-    </script>
-    <style>
-        /* Basic Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            display: flex;
-        }
-
-        h1 {
-            color: #2e5caf;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #2e5caf;
-            color: white;
-            padding-top: 20px;
-            padding-left: 20px;
-        }
-
-        /* VidyaTrack label and line */
-        .sidebar .title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .sidebar .line {
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            margin-top: 10px;
-        }
-
-        .sidebar a {
-            width:85%;
-            display: block;
-            color: white;
-            padding: 15px;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 8px; /* Rounded corners */
-            transition: background-color 0.3s ease; /* Smooth transition for background color only */
-        }
-
-        .sidebar a:hover {
-            background-color: #5d6169; /* Hover background color */
-        }
-        .sidebar a i {
-    margin-right: 10px; /* Increased gap between icon and text */
-    font-size: 18px; /* Icon size */
-    width: 20px; /* Fixed width for alignment */
-    text-align: center;
-}
-        /* Main Content Styles */
-        .main-content {
-            margin-left: 290px; /* Adjust for sidebar width */
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        .form-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin: auto;
-        }
-
-        .form-container input, .form-container select, .form-container button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-
-        .form-container input, .form-container select {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .form-container button {
-            background-color: #2e5caf;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .form-container button:hover {
-            background-color: #5d6169;
-        }
-
-        /* Success Message Style */
-        .success-message {
-            display: none;
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            margin-top: 10px;
-            text-align: center;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Homework Tracker - PadhaiTrack</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/homework.css">
+    <link rel="stylesheet" href="css/mobile.css" media="screen and (max-width: 1080px)">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="title">VidyaTrack</div>
-        <div class="line"></div>
-        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="attendance.html"><i class="fas fa-calendar-check"></i> Attendance</a>
-        <a href="homework.html"><i class="fas fa-book"></i> Homework</a>
-        <a href="notices.html"><i class="fas fa-bullhorn"></i> Notice</a>
-        <a href="group-work.html"><i class="fas fa-users"></i> Group Work</a>
-        <a href="classes.html"><i class="fas fa-chalkboard-teacher"></i> Classes</a>
-        <a href="study-material.html"><i class="fas fa-book-open"></i> Study Material</a>
-    </div>
 
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">PadhaiTrack</h2>
+            <div class="sidebar-hamburger-btn" id="sidebar-hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        <div class="sidebar-line"></div>
+        <ul class="sidebar-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i><span class="link-text">Dashboard</span></a></li>
+            <li><a href="todo.html" ><i class="fas fa-list-check"></i><span class="link-text">To-Do List</span></a></li>
+            <li><a href="homework.html" class="active"><i class="fas fa-book"></i><span class="link-text">Homework</span></a></li>
+            <li><a href="exam.html"><i class="fas fa-calendar-alt"></i><span class="link-text">Exam Prep</span></a></li>
+            <li><a href="focusmode.html"><i class="fas fa-bullseye"></i><span class="link-text">Focus Mode</span></a></li>
+        </ul>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1>Add Homework</h1>
+        <h1>Homework Tracker</h1>
+        <p>Keep track of your homework assignments and deadlines.</p>
 
-        <!-- Homework Form -->
-        <div class="form-container">
-            <form id="homework-form">
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" placeholder="Enter subject" required>
-
-                <label for="title">Title:</label>
-                <input type="text" id="title" placeholder="Enter title" required>
-
-                <label for="due-date">Due Date:</label>
-                <input type="date" id="due-date" required>
-
-                <!-- New Fields for Class and Section -->
-                <label for="class">Class:</label>
-                <select id="class" required>
-                    <option value="">Select Class</option>
-                    <option value="1">Class 1</option>
-                    <option value="2">Class 2</option>
-                    <option value="3">Class 3</option>
-                    <option value="4">Class 4</option>
-                    <option value="5">Class 5</option>
-                    <option value="6">Class 6</option>
-                    <option value="7">Class 7</option>
-                    <option value="8">Class 8</option>
-                    <option value="9">Class 9</option>
-                    <option value="10">Class 10</option>
-                </select>
-
-                <label for="section">Section:</label>
-                <select id="section" required>
-                <option value="">Select Section</option>
-                <option value="A">Section A</option>
-                <option value="B">Section B</option>
-                <option value="C">Section C</option>
-                <option value="D">Section D</option>
-                <option value="E">Section E</option>
-                <option value="F">Section F</option>
-                <option value="G">Section G</option>
-                </select>
-
-                <button type="submit">Add Homework</button>
-            </form>
-
-            <!-- Success Message -->
-            <div id="success-message" class="success-message">
-                Homework added successfully!
+        <div class="homework-container">
+            <!-- First Row -->
+            <div class="input-row">
+                <input type="text" placeholder="Subject">
+                <input type="text" placeholder="Assignment">
+            </div>
+        
+            <!-- Second Row -->
+            <div class="input-row-second">
+                <input type="date">
+                <button id="add-homework-btn">Add</button>
             </div>
         </div>
+
+        <ul id="homework-list"></ul>
     </div>
-    <script type="module" src="../auth-check.js"></script>
+
+    <script src="js/homework.js"></script>
 </body>
 </html>
+>>>>>>> 48b567a (Initial commit)

@@ -1,0 +1,293 @@
+/* Mobile-specific styles */
+@media screen and (max-width: 1080px) {
+
+    /* Navbar replacing sidebar */
+    .sidebar {
+        flex-direction: row;
+        width: 100%;
+        height: 8vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #333;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 0;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* Hide sidebar title & text, show only icons */
+    .sidebar-header,
+    .link-text {
+        display: none;
+    }
+
+    /* Navbar items */
+    .sidebar-links {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        flex-direction: row;
+    
+    }
+
+    .sidebar-links li {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .sidebar-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 1vh;
+        text-decoration: none;
+    }
+
+    /* Icons styling */
+    .sidebar-links a i {
+        font-size: 2.5vh;
+        color: white;
+    }
+
+    /* Adjust main content to prevent overlap */
+    .main-content {
+        margin-top: 10vh; /* Push content below navbar */
+        padding: 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Dashboard Header */
+    .dashboard-header {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard-header h1 {
+        font-size: 4vh;
+        margin-bottom: 1vh;
+    }
+
+    .intro-text {
+        font-size: 2.5vh;
+        line-height: 3.5vh;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4vh;
+        width: 100%;
+    }
+
+    .dashboard-card {
+        width: 90%;
+        padding: 5%;
+        text-align: center;
+        border-radius: 12px;
+        background: var(--card-light);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 5px 15px var(--shadow-light);
+    }
+
+    /* Light/Dark Mode Toggle */
+    .toggle-container {
+        position: fixed;
+        top: 80px;
+        right: 10px;
+        z-index: 1100;
+    }
+
+    /* Increase the width of To-Do List Container */
+    .todo-container {
+        width: 100%;  /* Increase width */
+        max-width: 600px; /* Limit max width */
+        margin: 20px auto; /* Center the container */
+        padding: 15px;
+    }
+
+    /* Adjust input field and button alignment */
+    .todo-input {
+        flex-direction: row; /* Keep input and button in the same row */
+        align-items: center;
+    }
+
+    #task-input {
+        flex: 1; /* Take up most of the space */
+        font-size: 1em;
+    }
+
+    #add-task-btn {
+        width: auto; /* Let it size itself */
+        padding: 10px 15px;
+        margin-left: 10px;
+    }
+
+    /* Align To-Do List Items with text on the left & buttons on the right */
+    .todo-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        text-align: left; /* Ensure text aligns to the left */
+    }
+
+    /* Ensure buttons stay on the right */
+    .todo-item .buttons {
+        display: flex;
+        gap: 10px; /* Add space between buttons */
+    }
+
+    .todo-item button {
+        font-size: 1.3em;
+    }
+
+    /* Ensure buttons are aligned properly */
+    .todo-item .complete-btn, 
+    .todo-item .delete-btn {
+        margin: 0;
+    }
+
+    /* Homework container input */
+    .homework-container input {
+        flex: 1; /* All inputs take equal width */
+        padding: 1.5%;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        min-width: 0; /* Prevents inputs from overflowing */
+    }
+
+    .homework-container {
+        background: white;
+        padding: 2%;
+        border-radius: 8px;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column; /* Stack rows vertically */
+        gap: 2%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Homework rows */
+    .input-row, .input-row-second {
+        display: flex;
+        gap: 2%;
+        width: 100%;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+    }
+
+    h1, p {
+        text-align: center;
+        color: #333;
+    }
+
+    .main-container {
+        width: 100%;  /* Use full width of the screen */
+        max-width: 900px;  /* Set a max width to prevent overflow */
+        background-color: #fff;
+        padding: 40px;  /* Padding for spacing */
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;  /* Prevent horizontal scroll */
+    }
+
+    /* Exam Container */
+    .exam-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-direction: row;
+    }
+
+    /* Exam list styling */
+    #exam-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+        width: 100%;
+        align-items: center;
+    }
+
+    #exam-list li {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border-left: 5px solid #3498db;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    #exam-list li span {
+        font-size: 1em;
+    }
+
+    #exam-list li .delete-btn {
+        background-color: transparent;
+        border: none;
+        color: #e74c3c;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+
+    #exam-list li .delete-btn:hover {
+        color: #c0392b;
+    }
+
+    /* Input fields for subject and exam date */
+    #subject-input,
+    #exam-date-input {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    #add-exam-btn {
+        background-color: #27ae60;
+        color: white;
+        font-size: 1.1em;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 90%;
+        max-width: 450px;
+    }
+
+    #add-exam-btn:hover {
+        background-color: #219150;
+    }
+}
+ 
