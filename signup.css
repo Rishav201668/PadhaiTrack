@@ -1,0 +1,190 @@
+/* Import Global Styles */
+@import url('global.css');
+
+/* Root Variables */
+:root {
+    --primary-color: #1e90ff;
+    --secondary-color: #1e90ff;
+    --bg-light: url('../images/light.jpg');
+    --bg-dark: url('../images/dark.png');
+    --text-light: #333;
+    --text-dark: #fff;
+    --card-light: rgba(255, 255, 255, 0.2); /* Transparent glass effect */
+    --card-dark: rgba(30, 30, 30, 0.8); /* Darker card in dark mode */
+    --shadow-light: rgba(0, 0, 0, 0.2);
+    --shadow-dark: rgba(255, 255, 0, 0.2);
+    --input-bg: rgba(255, 255, 255, 0.6);
+    --input-focus: rgba(30, 144, 255, 0.5);
+    --input-dark-bg: rgba(255, 255, 255, 0.3); /* Dark mode input background */
+    --input-dark-focus: rgba(255, 255, 255, 0.7); /* Dark mode input focus */
+    --input-border-light: rgba(0, 0, 0, 0.1);
+    --input-border-dark: rgba(255, 255, 255, 0.1);
+    --button-bg-light: #0066cc;
+    --button-bg-dark: #fff;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --text-light: #fff;
+    --card-light: rgba(30, 30, 30, 0.7);
+    --card-dark: rgba(30, 30, 30, 0.9);
+    --shadow-light: rgba(255, 255, 255, 0.3);
+    --shadow-dark: rgba(255, 255, 255, 0.4);
+    --input-bg: var(--input-dark-bg);
+    --input-focus: var(--input-dark-focus);
+    --bg-light: var(--bg-dark); /* Apply dark background */
+    --input-border-light: var(--input-border-dark); /* Dark mode input border */
+    --button-bg-light: var(--button-bg-dark); /* Dark mode button */
+}
+
+/* Smooth transitions */
+* {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Body Styling */
+body {
+    background: var(--bg-light) no-repeat center center/cover;
+    color: var(--text-light);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Signup Form Section */
+#signup-form {
+    background: var(--card-light);
+    backdrop-filter: blur(15px);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    width: 90%;
+    max-width: 600px; /* Increased width for a larger signup box */
+    text-align: center;
+}
+
+/* Header Styling */
+#signup-form h2 {
+    font-size: 2.5rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Form Input Fields */
+#signup-form input {
+    width: 100%;
+    padding: 16px;
+    margin: 12px 0;
+    border: 2px solid var(--input-border-light);
+    border-radius: 10px;
+    background-color: var(--input-bg);
+    font-size: 1rem;
+    color: var(--text-light);
+    box-shadow: 0 2px 8px var(--shadow-light);
+    transition: background-color 0.3s, box-shadow 0.3s, border 0.3s ease;
+}
+
+#signup-form input:focus {
+    background-color: var(--input-focus);
+    box-shadow: 0 4px 12px var(--shadow-light);
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Submit Button */
+#signup-form button {
+    background: var(--button-bg-light);
+    color: rgb(0, 0, 0);
+    padding: 16px 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease;
+}
+
+#signup-form button:hover {
+    background: #0066cc;
+    transform: translateY(-3px);
+}
+
+/* Already Have an Account Link */
+#signup-form p {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-top: 25px;
+}
+
+#signup-form a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#signup-form a:hover {
+    text-decoration: underline;
+}
+
+/* Dark Mode Support */
+.dark-mode #signup-form {
+    background: var(--card-dark);
+    box-shadow: 0 10px 30px var(--shadow-dark);
+}
+
+.dark-mode #signup-form input {
+    background-color: var(--input-dark-bg);
+    border-color: var(--input-border-dark);
+}
+
+.dark-mode #signup-form button {
+    background: var(--button-bg-dark);
+}
+
+/* Toggle Button Styling */
+.toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.toggle-btn {
+    width: 50px;
+    height: 25px;
+    background: linear-gradient(145deg, #dcdcdc, #ffffff);
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 3px 3px 5px #ccc, inset -3px -3px 5px #fff;
+}
+
+.toggle-btn:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    transition: 0.3s ease;
+}
+
+.dark-mode .toggle-btn {
+    background: linear-gradient(145deg, #333, #555);
+    box-shadow: inset 3px 3px 5px #222, inset -3px -3px 5px #444;
+}
+
+.dark-mode .toggle-btn:before {
+    left: 25px;
+    background: #fff;
+}
