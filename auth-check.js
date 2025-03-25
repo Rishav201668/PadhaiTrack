@@ -4,13 +4,13 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 
 // Firebase Config (replace with your Firebase project config)
 const firebaseConfig = {
-    apiKey: "AIzaSyCwPZD1aJ7YoKsrN9o9nAGwd8G-zFpunt0",
-    authDomain: "vidyatrack2.firebaseapp.com",
-    projectId: "vidyatrack2",
-    storageBucket: "vidyatrack2.appspot.com",
-    messagingSenderId: "88994221129",
-    appId: "1:88994221129:web:606388968b7de0218c4398",
-    measurementId: "G-RTX0GY7D69"
+    apiKey: "AIzaSyB_mdm1jwbAKwm4bQILZjcBJMQAa4gG7mE",
+      authDomain: "padhaitrack.firebaseapp.com",
+      projectId: "padhaitrack",
+      storageBucket: "padhaitrack.firebasestorage.app",
+      messagingSenderId: "655970824630",
+      appId: "1:655970824630:web:dffcafdf887225cd3d1117",
+      measurementId: "G-60QJ8BT69W"
 };
 
 // Initialize Firebase
@@ -22,7 +22,7 @@ function checkAuth() {
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             // User is not logged in, redirect to login page
-            window.location.href = "../index.html";
+            window.location.href = "login.html";
         } else {
             // User is logged in, you can optionally fetch user data or perform other actions
             console.log("User is logged in:", user.email);
